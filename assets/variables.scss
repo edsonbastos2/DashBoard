@@ -1,0 +1,70 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+
+$colors: (
+  light: (
+    base: #f7f7f7,
+    darkest: #f0f0f0
+  ),
+  dark: (
+    base: #7e7a7a,
+    darkest: #292929
+  ),
+  pink1:(
+    base: #ff477e,
+    dark: #ff0a54
+  ),
+  red1:(
+    base:#e5383b,
+    dark:#ba181b
+  ),
+  blue1:(
+    base:#014f86,
+    dark:#01497c
+  ),
+  green1:(
+    base:#38b000,
+    dark:#008000
+  ),
+  yellow1:(
+    base:#ffdd32,
+    dark:#ffd400
+  )
+) !default;
+
+@function color($color, $complementary: null) {
+  @if map-has-key($colors, $color) {
+    $type: map-get($colors, $color);
+    @if $complementary == null {
+      @if type-of($type) == map {
+        @return map-get(map-get($colors, $color), 'base');
+      } @else {
+        @return map-get($colors, $color);
+      }
+    } @else {
+      @return map-get(map-get($colors, $color), $complementary);
+    }
+  }
+}
+
+$breakpoints: (
+  small: (max-width:  600px),
+  medium: (min-width: 600px) and (max-width: 992px),
+  large: (min-width: 992px) and (max-width: 1200px),
+  infinity: (min-width: 1200px)
+) !default;
+
+@mixin screen($sizes...) {
+  @each $value in $sizes {
+    @if map-has-key($breakpoints, $value) {
+      @media #{inspect(map-get($breakpoints, $value))} {
+        @content;
+      }
+    } @else {
+      @warn "Unfortunately, no value could be retrieved from `#{$value}`. "
+            + "Available breakpoints are: #{map-keys($breakpoints)}.";
+    }
+  }
+}

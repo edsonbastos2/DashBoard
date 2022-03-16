@@ -42,7 +42,7 @@
     props:{
       drawer:{
         type:Boolean,
-        default: null
+        default: false
       }
     },
     data(){
